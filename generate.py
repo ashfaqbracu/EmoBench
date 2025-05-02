@@ -37,7 +37,7 @@ data_name = args.data_name
 model_path = args.model_path
 model_name = model_path.split("/")[-1]
 letters = string.ascii_lowercase
-val_dict = json.load(open("data/dicts.json", "r"))
+val_dict = json.load(open("/kaggle/working/EmoBench/data/dicts.json", "r"))
 prompt = val_dict["Prompts"]
 columns = val_dict["column_names"]
 device = torch.device(f"cuda:{args.device}" if args.device >= 0 else "cpu")
@@ -74,7 +74,7 @@ else:
 def write_res(d):
     ver = "" if not "permute" in data_name else data_name[-1]
     cot = "_cot" if args.cot else ""
-    file_dir = f"data/{task}/Results/{model_name}"
+    file_dir = f"/kaggle/working/EmoBench/data/{task}/Results/{model_name}"
     if not os.path.exists(file_dir):
         os.mkdir(file_dir)
     file_name = f"{file_dir}/{model_name}-{lang}{cot}{ver}.csv"
@@ -135,7 +135,7 @@ def get_output(pt, choices=[]):
     elif model_name in ["Baichuan2-7B-Chat", "Baichuan2-13B-Chat"]:
         pred = model.chat(tokenizer, messages)
     elif llama_based:
-        chat_template = open("data/llama-2-chat.jinja").read()
+        chat_template = open("/kaggle/working/EmoBench/data/llama-2-chat.jinja").read()
         chat_template = chat_template.replace("    ", "").replace("\n", "")
         input_ids = tokenizer.apply_chat_template(
             conversation=messages,
@@ -295,15 +295,7 @@ def EA_test(data):
 
 
 if __name__ == "__main__":
-    # Update the file path to reflect Kaggle's working directory structure
-    file_path = '/kaggle/working/EmoBench/data/EA/data.json'
-
-    # Debugging statement to verify the file path
-    print("Looking for file at:", file_path)
-
-    # Load the JSON data
-    data = json.loads(open(file_path, "r").read())
-
+    data = json.loads(open(f"/kaggle/working/EmoBench/data/{task}/{data_name}.json", "r").read())
     print("+------------------+")
     print(
         f"Running <{model_name}> on <{task}/{data_name}({lang})> [{'with' if args.cot else 'without'} CoT]"
