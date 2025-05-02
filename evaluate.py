@@ -52,7 +52,7 @@ def print_res(res):
 
 def evaluate(model_name, task, eval_all=False):
     res = {}
-    directory = f"data/{task}/Results/{model_name}"
+    directory = f"/kaggle/working/EmoBench/data/{task}/Results/{model_name}"
     res_files = sorted([f for f in os.listdir(directory) if f.endswith(".csv")])
 
     for f in res_files:
@@ -87,7 +87,7 @@ def evaluate(model_name, task, eval_all=False):
 
 def evaluate_all(task):
     res_all = {}
-    directory = f"data/{task}/Results"
+    directory = f"/kaggle/working/EmoBench/data/{task}/Results"
     for model_name in os.listdir(directory):
         res_all[model_name] = evaluate(model_name, task, eval_all=True)
     print_res(res_all)
