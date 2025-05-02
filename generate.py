@@ -295,7 +295,15 @@ def EA_test(data):
 
 
 if __name__ == "__main__":
-    data = json.loads(open(f"data/{task}/{data_name}.json", "r").read())
+    # Update the file path to reflect Kaggle's working directory structure
+    file_path = '/kaggle/working/data/EA/data.json'
+
+    # Debugging statement to verify the file path
+    print("Looking for file at:", file_path)
+
+    # Load the JSON data
+    data = json.loads(open(file_path, "r").read())
+
     print("+------------------+")
     print(
         f"Running <{model_name}> on <{task}/{data_name}({lang})> [{'with' if args.cot else 'without'} CoT]"
