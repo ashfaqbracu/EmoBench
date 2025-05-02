@@ -295,7 +295,7 @@ def EA_test(data):
 
 
 if __name__ == "__main__":
-    data = json.loads(open(f"/kaggle/working/EmoBench/data/{task}/{data_name}.json", "r").read())
+    data = json.loads(open(f"/kaggle/working/EmoBench/data/{task}/{data_name}", "r").read())
     print("+------------------+")
     print(
         f"Running <{model_name}> on <{task}/{data_name}({lang})> [{'with' if args.cot else 'without'} CoT]"
