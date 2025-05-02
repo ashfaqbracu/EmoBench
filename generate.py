@@ -295,7 +295,11 @@ def EA_test(data):
 
 
 if __name__ == "__main__":
-    data = json.loads(open(f"/kaggle/working/EmoBench/data/{task}/{data_name}", "r").read())
+    # Ensure data_name does not have a redundant .json suffix
+    if data_name.endswith(".json"):
+        data_name = data_name[:-5]
+    file_path = f"/kaggle/working/EmoBench/data/{task}/{data_name}.json"
+    data = json.loads(open(file_path, "r").read())
     print("+------------------+")
     print(
         f"Running <{model_name}> on <{task}/{data_name}({lang})> [{'with' if args.cot else 'without'} CoT]"
