@@ -296,7 +296,7 @@ def EA_test(data):
 
 if __name__ == "__main__":
     # Update the file path to reflect Kaggle's working directory structure
-    file_path = '/kaggle/working/data/EA/data.json'
+    file_path = '/kaggle/working/EmoBench/data/EA/data.json'
 
     # Debugging statement to verify the file path
     print("Looking for file at:", file_path)
