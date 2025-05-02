@@ -88,6 +88,7 @@ def write_res(d):
 
 
 def get_output(pt, choices=[]):
+    pred = ""  # Initialize pred with a default value
     llama_based = model_name in [
         "Llama-2-7b-chat-hf",
         "Llama-2-13b-chat-hf",
