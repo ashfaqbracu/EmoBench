@@ -93,6 +93,7 @@ def get_output(pt, choices=[]):
         "Llama-2-7b-chat-hf",
         "Llama-2-13b-chat-hf",
         "Yi-6B-Chat",
+        "llama-2-7b-chat-psych-merged",  # Add support for this model
     ]
     system_pt = prompt["System" + ("_cot" if args.cot else "")][lang]
 
@@ -159,7 +160,7 @@ def get_output(pt, choices=[]):
     elif model_name == "random":
         pred = random.sample(choices, 1)[0]
     else:
-        print("Model not supported")
+        print(f"Model '{model_name}' not supported")
     torch.cuda.empty_cache()
 
     return pred.strip()
