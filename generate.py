@@ -53,6 +53,16 @@ elif model_name in ["Baichuan2-53B", "chatglm3-66b"]:
         "Content-Type": "application/json",
         "Authorization": "",  # Change to your own API Key
     }
+elif model_name in ["meta-llama/Llama-3.1-8B"]:  # Add support for Llama-3.1-8B
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_path, use_fast=False, trust_remote_code=True
+    )
+    model = (
+        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+        .eval()
+        .to(device)
+    )
+    print("Meta-Llama 3.1-8B model loaded")
 else:
     tokenizer = AutoTokenizer.from_pretrained(
         model_path, use_fast=False, trust_remote_code=True
@@ -93,7 +103,8 @@ def get_output(pt, choices=[]):
         "Llama-2-7b-chat-hf",
         "Llama-2-13b-chat-hf",
         "Yi-6B-Chat",
-        "llama-2-7b-chat-psych-merged",  # Add support for this model
+        "llama-2-7b-chat-psych-merged",
+        "meta-llama/Llama-3.1-8B",  # Add support for this model
     ]
     system_pt = prompt["System" + ("_cot" if args.cot else "")][lang]
 
