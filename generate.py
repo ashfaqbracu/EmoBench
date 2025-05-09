@@ -57,9 +57,11 @@ elif model_name in ["meta-llama/Llama-3.1-8B"]:  # Add support for Llama-3.1-8B
     tokenizer = AutoTokenizer.from_pretrained(
         model_path, use_fast=False, trust_remote_code=True
     )
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path, trust_remote_code=True
-    ).eval().to(device)
+    model = (
+        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+        .eval()
+        .to(device)
+    )
     print("Meta-Llama 3.1-8B model loaded")
 elif model_name in [
     "Ash2749/finetuned-llama3.2-3b-instruct-acot",
@@ -68,9 +70,11 @@ elif model_name in [
     tokenizer = AutoTokenizer.from_pretrained(
         model_path, use_fast=False, trust_remote_code=True
     )
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path, trust_remote_code=True
-    ).eval().to(device)
+    model = (
+        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+        .eval()
+        .to(device)
+    )
     print(f"{model_name} model loaded")
 else:
     tokenizer = AutoTokenizer.from_pretrained(
@@ -82,9 +86,11 @@ else:
             n = f"{t}_token"
             if n not in special_toks:
                 tokenizer.add_special_tokens({n: tokenizer.eos_token})
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path, trust_remote_code=True
-    ).eval().to(device)
+    model = (
+        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+        .eval()
+        .to(device)
+    )
     print("Model loaded")
 
 
