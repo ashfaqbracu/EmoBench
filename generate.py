@@ -63,6 +63,19 @@ elif model_name in ["meta-llama/Llama-3.1-8B"]:  # Add support for Llama-3.1-8B
         .to(device)
     )
     print("Meta-Llama 3.1-8B model loaded")
+elif model_name in [
+    "Ash2749/finetuned-llama3.2-3b-instruct-acot",
+    "meta-llama/Llama-3.2-3B-Instruct",
+]:
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_path, use_fast=False, trust_remote_code=True
+    )
+    model = (
+        AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
+        .eval()
+        .to(device)
+    )
+    print(f"{model_name} model loaded")
 else:
     tokenizer = AutoTokenizer.from_pretrained(
         model_path, use_fast=False, trust_remote_code=True
@@ -105,6 +118,8 @@ def get_output(pt, choices=[]):
         "Yi-6B-Chat",
         "llama-2-7b-chat-psych-merged",
         "meta-llama/Llama-3.1-8B",  # Add support for this model
+        "Ash2749/finetuned-llama3.2-3b-instruct-acot",  # Add support for this model
+        "meta-llama/Llama-3.2-3B-Instruct",  # Add support for this model
     ]
     system_pt = prompt["System" + ("_cot" if args.cot else "")][lang]
 
