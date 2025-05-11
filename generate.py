@@ -183,8 +183,6 @@ def get_output(pt, choices=[]):
         )
         pred = tokenizer.decode(gen[0][input_ids.shape[1] :], skip_special_tokens=True)
         del input_ids
-    elif model_name == "random":
-        pred = random.sample(choices, 1)[0]
     else:
         print(f"Model '{model_name}' not supported")
     torch.cuda.empty_cache()
