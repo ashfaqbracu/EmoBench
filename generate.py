@@ -117,9 +117,9 @@ def get_output(pt, choices=[]):
         "Llama-2-13b-chat-hf",
         "Yi-6B-Chat",
         "llama-2-7b-chat-psych-merged",
-        "meta-llama/Llama-3.1-8B",  # Add support for this model
-        "Ash2749/finetuned-llama3.2-3b-instruct-acot",  # Add support for this model
-        "meta-llama/Llama-3.2-3B-Instruct",  # Add support for this model
+        "meta-llama/Llama-3.1-8B",
+        "Ash2749/finetuned-llama3.2-3b-instruct-acot",
+        "meta-llama/Llama-3.2-3B-Instruct",  # Ensure this model is supported
     ]
     system_pt = prompt["System" + ("_cot" if args.cot else "")][lang]
 
