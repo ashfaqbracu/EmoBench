@@ -163,26 +163,42 @@ def get_output(pt, choices=[]):
     elif model_name in ["Baichuan2-7B-Chat", "Baichuan2-13B-Chat"]:
         pred = model.chat(tokenizer, messages)
     elif llama_based:
-        chat_template = open("/kaggle/working/EmoBench/data/llama-2-chat.jinja").read()
+        print(f"Processing llama-based model: {model_name}")  # Debug statement
+        chat_template_path = "/kaggle/working/EmoBench/data/llama-2-chat.jinja"
+        if not os.path.exists(chat_template_path):
+            raise FileNotFoundError(f"Chat template file not found: {chat_template_path}")
+        chat_template = open(chat_template_path).read()
         chat_template = chat_template.replace("    ", "").replace("\n", "")
-        input_ids = tokenizer.apply_chat_template(
-            conversation=messages,
-            tokenize=True,
-            return_tensors="pt",
-            chat_template=chat_template,
-        ).to(device)
-        gen = model.generate(
-            input_ids,
-            max_new_tokens=500 if args.cot else 75,
-            top_p=0.9,
-            temperature=0.6,
-            do_sample=True,
-            num_return_sequences=1,
-            no_repeat_ngram_size=2,
-            pad_token_id=tokenizer.eos_token_id,
-        )
-        pred = tokenizer.decode(gen[0][input_ids.shape[1] :], skip_special_tokens=True)
-        del input_ids
+        try:
+            input_ids = tokenizer.apply_chat_template(
+                conversation=messages,
+                tokenize=True,
+                return_tensors="pt",
+                chat_template=chat_template,
+            ).to(device)
+            print(f"Input IDs generated: {input_ids.shape}")  # Debug input IDs
+        except Exception as e:
+            print(f"Error in apply_chat_template: {type(e).__name__} – {e}")
+            return ""
+
+        try:
+            gen = model.generate(
+                input_ids,
+                max_new_tokens=500 if args.cot else 75,
+                top_p=0.9,
+                temperature=0.6,
+                do_sample=True,
+                num_return_sequences=1,
+                no_repeat_ngram_size=2,
+                pad_token_id=tokenizer.eos_token_id,
+            )
+            print(f"Generated tokens: {gen}")  # Debug generated tokens
+            pred = tokenizer.decode(gen[0][input_ids.shape[1] :], skip_special_tokens=True)
+        except Exception as e:
+            print(f"Error during generation: {type(e).__name__} – {e}")
+            return ""
+        finally:
+            del input_ids
     else:
         print(f"Model '{model_name}' not supported")
     torch.cuda.empty_cache()
